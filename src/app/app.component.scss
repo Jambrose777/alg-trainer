@@ -1,0 +1,15 @@
+.app-container {
+  width: calc(100vw - 16px);
+  height: calc(100vh - 16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .current-alg {
+    font-size: 10em;
+  }
+  .previous-alg {
+    font-size: 4em;
+  }
+}
