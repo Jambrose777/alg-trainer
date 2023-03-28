@@ -16,19 +16,21 @@ export class AppComponent implements OnInit {
   checkList: Alg[] = [];
 
   ngOnInit() {
-    this.randomAlgList = algList
-      .map(value => ({ value, sort: Math.random() }))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({ value }) => value);
     document.addEventListener('keyup', event => {
       if (event.code === 'Space') {
         this.getNextAlg();
       }
-      if (event.code === 'KeyC') {
+      if (event.code === 'KeyR') {
         this.addToChecklist();
       }
+      if (event.code === 'KeyQ') {
+        this.resetAlglist();
+      }
+      if (event.code === 'Backspace') {
+        this.goBack();
+      }
     });
-    this.currentAlg = this.randomAlgList[0];
+    this.resetAlglist();
   }
 
   getNextAlg() {
@@ -46,10 +48,15 @@ export class AppComponent implements OnInit {
       this.currentIndex++;
       this.currentAlg = this.randomAlgList?.[this.currentIndex];
     } else if (this.randomAlgList && this.currentIndex == this.randomAlgList.length) {
-      this.randomAlgList = this.checkList;
-      this.checkList = [];
-      this.currentIndex = 0;
-      this.currentAlg = this.randomAlgList[this.currentIndex];
+      this.resetAlglist(this.checkList);
+    }
+  }
+
+  goBack() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.currentAlg = this.randomAlgList?.[this.currentIndex];
+      this.previousAlg = this.currentIndex > 0 ? this.randomAlgList?.[this.currentIndex - 1] : undefined;
     }
   }
 
@@ -57,6 +64,17 @@ export class AppComponent implements OnInit {
     if (this.currentIndex > 0 && this.randomAlgList && !this.checkList.find(a => a.name === this.randomAlgList?.[this.currentIndex-1].name)) {
       this.checkList.push(this.randomAlgList[this.currentIndex-1]);
     }
+  }
+
+  resetAlglist(newAlgList?: Alg[]) {
+    this.randomAlgList = (newAlgList || algList)
+      .map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+    this.currentAlg = this.randomAlgList[0];
+    this.currentIndex = 0;
+    this.previousAlg = undefined;
+    this.checkList = [];
   }
 
 }

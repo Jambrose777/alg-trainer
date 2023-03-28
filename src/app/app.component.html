@@ -3,4 +3,8 @@
   <div class="previous-alg">{{previousAlg?.name}} - {{previousAlg?.alg}}</div>
   <button (click)="addToChecklist()">add to checklist</button>
   <div class="previous-alg">{{currentIndex}}/{{randomAlgList?.length}}</div>
+  <div class="previous-alg">Review:</div>
+  <ng-container *ngFor="let reviewAlg of checkList">
+    <div class="review-alg">{{reviewAlg?.name}} - {{reviewAlg?.alg}}</div>
+  </ng-container>
 </div>
